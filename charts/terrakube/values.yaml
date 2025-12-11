@@ -225,8 +225,8 @@ api:
   resources: {}
   podLabels: {}
   podAnnotations: {}
-  defaultDatabase: true
-  defaultRedis: true
+  defaultDatabase: false
+  defaultRedis: false
   loadSampleData: true
   terraformReleasesUrl: "https://releases.hashicorp.com/terraform/index.json"
   tofuReleasesUrl: "https://api.github.com/repos/opentofu/opentofu/releases"
@@ -490,20 +490,20 @@ ingressRoute:
   ui:
     enabled: true
     routeMatch: "Host(`terrakube.example.com`)"
-    ingressClassName: "traefik"
     useTls: true
     port: 8080
     tlsSecretName: "wildcard-example-com-tls"
-    annotations: []
+    annotations:
+    - kubernetes.io/ingress.class: "traefik"
   
   api:
     enabled: true
     routeMatch: "Host(`terrakube-api.example.com`) && PathPrefix(`/`)"
-    ingressClassName: "traefik"
     useTls: true
     port: 8080
     tlsSecretName: "wildcard-example-com-tls"
-    annotations: []
+    annotations:
+    - kubernetes.io/ingress.class: "traefik"
 
   dex:
     enabled: true
@@ -515,16 +515,16 @@ ingressRoute:
   registry:
     enabled: true
     routeMatch: "Host(`terrakube-reg.example.com`)"
-    ingressClassName: "traefik"
     useTls: true
     port: 8075
     tlsSecretName: "wildcard-example-com-tls"
-    annotations: []
+    annotations:
+    - kubernetes.io/ingress.class: "traefik"
     
   executor:
     enabled: true
     routeMatch: "Host(`terrakube-executor.example.com`)"
-    ingressClassName: "traefik"
     useTls: false
     tlsSecretName: "wildcard-example-com-tls"
-    annotations: []
+    annotations:
+    - kubernetes.io/ingress.class: "traefik"

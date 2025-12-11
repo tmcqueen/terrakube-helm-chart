@@ -11,9 +11,6 @@ metadata:
   labels:
     app: {{ .Values.name }}-executor
 spec:
-  {{- if .Values.ingressRoute.executor.ingressClassName }}
-  ingressClassName: {{ .Values.ingressRoute.executor.ingressClassName }}
-  {{- end }}
   entryPoints:
     - websecure # or 'web' if you are not using TLS
   routes:

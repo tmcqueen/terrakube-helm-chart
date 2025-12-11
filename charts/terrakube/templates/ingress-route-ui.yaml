@@ -11,9 +11,6 @@ metadata:
   labels:
     app: {{ .Values.name }}-ui
 spec:
-  {{- if .Values.ingressRoute.ui.ingressClassName }}
-  ingressClassName: {{ .Values.ingressRoute.ui.ingressClassName }}
-  {{- end }}
   entryPoints:
     - websecure # or 'web' if you are not using TLS
   routes:
