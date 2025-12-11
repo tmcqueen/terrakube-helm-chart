@@ -475,3 +475,56 @@ ingress:
         registry: false
         dex: false
         executor: false
+
+## Ingress properties
+ingressRoute:
+  useTls: false
+  includeTlsHosts: true
+  controller: "generic"  # Options: "generic", "aws", "gke, gatewayapi"
+
+  gatewayapi:
+    enabled: false
+    gateways: []
+    annotations: {}
+
+  ui:
+    enabled: true
+    routeMatch: "Host(`terrakube.example.com`)"
+    ingressClassName: "traefik"
+    useTls: true
+    port: 8080
+    tlsSecretName: "wildcard-example-com-tls"
+    annotations: []
+  
+  api:
+    enabled: true
+    routeMatch: "Host(`terrakube-api.example.com`) && PathPrefix(`/`)"
+    ingressClassName: "traefik"
+    useTls: true
+    port: 8080
+    tlsSecretName: "wildcard-example-com-tls"
+    annotations: []
+
+  dex:
+    enabled: true
+    routeMatch: "Host(`terrakube-api.example.com`) && PathPrefix(`/dex`)"
+    port: 5556
+    annotations: []
+
+
+  registry:
+    enabled: true
+    routeMatch: "Host(`terrakube-reg.example.com`)"
+    ingressClassName: "traefik"
+    useTls: true
+    port: 8075
+    tlsSecretName: "wildcard-example-com-tls"
+    annotations: []
+    
+  executor:
+    enabled: true
+    routeMatch: "Host(`terrakube-executor.example.com`)"
+    ingressClassName: "traefik"
+    useTls: false
+    tlsSecretName: "wildcard-example-com-tls"
+    annotations: []

@@ -1,0 +1,29 @@
+{{- if .Values.ingressRoute.ui.enabled -}}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+    {{- with .Values.ingressRoute.ui.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  name: {{ .Values.name }}-ui
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.name }}-ui
+spec:
+  {{- if .Values.ingressRoute.ui.ingressClassName }}
+  ingressClassName: {{ .Values.ingressRoute.ui.ingressClassName }}
+  {{- end }}
+  entryPoints:
+    - websecure # or 'web' if you are not using TLS
+  routes:
+    - match: {{ .Values.ingressRoute.ui.routeMatch }}
+      kind: Rule
+      services:
+        - name: {{ .Values.name }}-ui-service
+          port: {{ $.Values.ingressRoute.ui.port }}
+    {{- if .Values.ingressRoute.ui.useTls }}
+  tls:
+    secretName: {{ .Values.ingressRoute.ui.tlsSecretName }}
+    {{- end }}
+{{- end }}

@@ -1,0 +1,29 @@
+{{- if .Values.ingressRoute.registry.enabled -}}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+    {{- with .Values.ingressRoute.registry.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  name: {{ .Values.name }}-registry
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.name }}-registry
+spec:
+  {{- if .Values.ingressRoute.registry.ingressClassName }}
+  ingressClassName: {{ .Values.ingressRoute.registry.ingressClassName }}
+  {{- end }}
+  entryPoints:
+    - websecure # or 'web' if you are not using TLS
+  routes:
+    - match: {{ .Values.ingressRoute.registry.routeMatch }}
+      kind: Rule
+      services:
+        - name: {{ .Values.name }}-registry-service
+          port: {{ $.Values.ingressRoute.registry.port }}
+    {{- if .Values.ingressRoute.registry.useTls }}
+  tls:
+    secretName: {{ .Values.ingressRoute.registry.tlsSecretName }}
+    {{- end }}
+{{- end }}

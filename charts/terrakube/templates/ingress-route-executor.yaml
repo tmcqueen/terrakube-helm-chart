@@ -1,0 +1,29 @@
+{{- if .Values.ingressRoute.executor.enabled -}}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  annotations:
+    {{- with .Values.ingressRoute.executor.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  name: {{ .Values.name }}-executor
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.name }}-executor
+spec:
+  {{- if .Values.ingressRoute.executor.ingressClassName }}
+  ingressClassName: {{ .Values.ingressRoute.executor.ingressClassName }}
+  {{- end }}
+  entryPoints:
+    - websecure # or 'web' if you are not using TLS
+  routes:
+    - match: {{ .Values.ingressRoute.executor.routeMatch }}
+      kind: Rule
+      services:
+        - name: {{ .Values.name }}-executor-service
+          port: {{ $.Values.ingressRoute.executor.port }}
+    {{- if .Values.ingressRoute.executor.useTls }}
+  tls:
+    secretName: {{ .Values.ingressRoute.executor.tlsSecretName }}
+    {{- end }}
+{{- end }}
