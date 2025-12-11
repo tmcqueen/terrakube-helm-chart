@@ -494,7 +494,7 @@ ingressRoute:
     port: 8080
     tlsSecretName: "wildcard-example-com-tls"
     annotations:
-    - kubernetes.io/ingress.class: "traefik"
+      kubernetes.io/ingress.class: "traefik"
   
   api:
     enabled: true
@@ -503,7 +503,7 @@ ingressRoute:
     port: 8080
     tlsSecretName: "wildcard-example-com-tls"
     annotations:
-    - kubernetes.io/ingress.class: "traefik"
+      kubernetes.io/ingress.class: "traefik"
 
   dex:
     enabled: true
@@ -519,7 +519,7 @@ ingressRoute:
     port: 8075
     tlsSecretName: "wildcard-example-com-tls"
     annotations:
-    - kubernetes.io/ingress.class: "traefik"
+      kubernetes.io/ingress.class: "traefik"
     
   executor:
     enabled: true
@@ -527,4 +527,4 @@ ingressRoute:
     useTls: false
     tlsSecretName: "wildcard-example-com-tls"
     annotations:
-    - kubernetes.io/ingress.class: "traefik"
+      kubernetes.io/ingress.class: "traefik"
